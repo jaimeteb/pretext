@@ -33,7 +33,10 @@ class Templatext():
         self.punctuation = punctuation
         self.tokens = tokens
 
-        self.nlp = spacy.load('en_core_web_md')
+        if language == "en":
+            self.nlp = spacy.load("en_core_web_md")
+        elif language == "es":
+            self.nlp = spacy.load("es_core_news_sm")
 
     @staticmethod
     def strip_html_tags(text):
@@ -60,15 +63,23 @@ class Templatext():
         return text.lower()
 
     @staticmethod
-    def expand_contractions(text):
+    def expand_contractions(text, language):
         """Expand contracted words, e.g. don't to do not"""
-        text = expand_contractions(text)
+        text = expand_contractions(text, language)
         return text
 
     @staticmethod
     def remove_punctuation(text):
         """Remove punctuation from text"""
         return punctuation_regex.sub("", text)
+
+    @staticmethod
+    def replace_numbers(text, language):
+        """Replace number texts with their numerical representation"""
+        if language == "en":
+            return w2n.word_to_num(text)
+        elif language == "es":
+            return text # TODO: spanish word2num
 
     def preprocess(self, text):
         """Perform text preprocessing"""
@@ -79,7 +90,7 @@ class Templatext():
         if self.accented_chars:
             text = self.remove_accented_chars(text)
         if self.contractions:
-            text = self.expand_contractions(text)
+            text = self.expand_contractions(text, self.language)
         if self.lowercase:
             text = self.lower(text)
         if self.punctuation:
@@ -100,7 +111,7 @@ class Templatext():
             if self.remove_num and (token.pos_ == 'NUM' or token.text.isnumeric()) and flag:
                 flag = False
             if self.convert_num and token.pos_ == 'NUM' and flag:
-                edit = w2n.word_to_num(token.text)
+                edit = self.replace_numbers(token.text, self.language)
             elif self.lemmatization and token.lemma_ != "-PRON-" and flag:
                 edit = token.lemma_
             if edit.strip() != "" and flag:

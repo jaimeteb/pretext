@@ -1,7 +1,7 @@
 import re
 from functools import lru_cache
 
-CONTRACTIONS = {
+CONTRACTIONS_EN = {
     "ain't": "is not",
     "aren't": "are not",
     "can't": "cannot",
@@ -121,10 +121,17 @@ CONTRACTIONS = {
     "you've": "you have"
 }
 
-contractions_re = re.compile('(%s)' % '|'.join(CONTRACTIONS.keys()))
 
-def expand_contractions(text, contractions_dict=CONTRACTIONS):
+def expand_contractions(text, language="en"):
+    if language == "en":
+        contractions_dict = CONTRACTIONS_EN
+    elif language == "es":
+        return text
+
+    contractions_re = re.compile('(%s)' % '|'.join(contractions_dict.keys()))
+
     @lru_cache(maxsize=8)
     def replace(match):
         return contractions_dict[match.group(0)]
+
     return contractions_re.sub(replace, text)

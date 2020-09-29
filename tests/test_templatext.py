@@ -6,16 +6,21 @@ from templatext import Templatext
 class TestTemplatex(unittest.TestCase):
     """Test Templatext module"""
 
-    # def setUp(self):
-    #     self.a = 10
-    #     self.b = 5
+    def setUp(self):
+        self.en = Templatext(language="en")
+        self.es = Templatext(language="es")
 
-    def test_preprocess(self):
+    def test_preprocess_en(self):
         text = " <p> Hey music is good I'm loving it!! </p>"
         expected = ["hey", "music", "good", "love"]
 
-        t = Templatext()
-        self.assertEqual(t.preprocess(text), expected)
+        self.assertEqual(self.en.preprocess(text), expected)
+
+    def test_preprocess_es(self):
+        text = " <p> Está super interesante !! </p>"
+        expected = ["super", "interesante"]
+
+        self.assertEqual(self.es.preprocess(text), expected)
 
 
 def suite():
