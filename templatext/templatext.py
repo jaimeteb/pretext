@@ -8,40 +8,12 @@ import gensim.downloader as api
 from word2number import w2n
 from bs4 import BeautifulSoup
 
-from contractions import expand_contractions
+from .contractions import expand_contractions
 
-# nlp = spacy.load('en_core_web_md')
-
-example = """<h1 id="i-what-is-preprocessing">I. What is preprocessing?</h1>
-
-<p>Preprocessing in Natural Language Processing (NLP) is the process by which we try to “standardize” the text we want to analyze.</p>
-
-<p>A challenge that arises pretty quickly when you try to build an efficient preprocessing NLP pipeline is the diversity of the texts you might deal with :</p>
-<ul>
-  <li>tweets that would be highly informal</li>
-  <li>cover letters from candidates in an HR company</li>
-  <li>Slack messages within a team</li>
-  <li>Even code sometimes if you try to analyze Github comments for example</li>
-</ul>
-
-<p>The diversity makes the whole thing tricky. Usually, a given pipeline is developed for a certain kind of text. The pipeline should give us a “clean” text version.</p>
-
-<p>Another challenge that arises when dealing with text preprocessing is the language. The English language remains quite simple to preprocess. German or french use for example much more special characters like “é, à, ö, ï”.</p>
-
-<p>You might now wonder what are the main steps of preprocessing?</p>
-<ul>
-  <li>A first step is to remove words that are made of special characters (if needed in your case): <code class="language-plaintext highlighter-rouge">@,#, /,!.\'+-= </code></li>
-  <li>In English, some words are short versions of actuals words, e.g “I’m” for “I am”. To treat them as separate words, you’ll need to split them.</li>
-  <li>We then would like to remove specific syntax linked to our text extraction, e.g “\n” every time there is a new line</li>
-  <li>Remove the stop words, which are mainstream words like “the, I, would”…</li>
-  <li>Once this step is done, we are ready to tokenize the text, i.e split by word</li>
-  <li>To make sure that the words “Shoe” and “shoe” are later understood as the same, lower case the tokens</li>
-  <li>Lemmatize the tokens to extract the “root” of each word.</li>
-</ul>"""
 
 punctuation_regex = re.compile("[%s]" % re.escape(string.punctuation))
 
-class Templatext:
+class Templatext():
     def __init__(self, language="en", remove_html=True, extra_whitespace=True,
                 accented_chars=True, contractions=True, lowercase=True, stop_words=True,
                 punctuations=True, special_chars=True, remove_num=True, convert_num=True,
