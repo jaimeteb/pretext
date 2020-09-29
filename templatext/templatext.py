@@ -41,7 +41,7 @@ example = """<h1 id="i-what-is-preprocessing">I. What is preprocessing?</h1>
 
 punctuation_regex = re.compile("[%s]" % re.escape(string.punctuation))
 
-class Pretext:
+class Templatext:
     def __init__(self, language="en", remove_html=True, extra_whitespace=True,
                 accented_chars=True, contractions=True, lowercase=True, stop_words=True,
                 punctuations=True, special_chars=True, remove_num=True, convert_num=True,

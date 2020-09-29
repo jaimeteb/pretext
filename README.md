@@ -1,2 +1,2 @@
-# pretext
+# templatext
 Text preprocessing tool for NLP.
