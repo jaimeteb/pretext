@@ -1,0 +1,12 @@
+language: python
+python:
+  - "3.5"
+  - "3.6"
+  - "3.7"
+  - "3.8"
+install:
+  - pip install coverage bs4 spacy unidecode word2number gensim
+script:
+  - python -m coverage run --source templatext/ tests/test_templatext.py
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
